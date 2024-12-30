@@ -1,5 +1,5 @@
 from sqlalchemy.orm import DeclarativeBase
 
 
-class BookmarkModel(DeclarativeBase):
+class TravelModel(DeclarativeBase):
     pass
