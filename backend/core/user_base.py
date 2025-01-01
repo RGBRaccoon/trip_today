@@ -1,6 +1,7 @@
 import uuid
 from typing import Optional
 
+from core.db_config import get_async_session
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import (
@@ -9,11 +10,14 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
-
-from core.db_config import get_user_db
+from sqlalchemy.ext.asyncio import AsyncSession
 from model.user_model import UserModel
 
 SECRET = "SECRET"
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+    yield SQLAlchemyUserDatabase(session, UserModel)
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[UserModel, uuid.UUID]):
