@@ -1,4 +1,5 @@
 from core.base_service import BaseService
+from repository.location_repository import LocationRepository
 
 
 class LocationService(BaseService):
