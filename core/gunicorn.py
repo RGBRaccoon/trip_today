@@ -1,7 +1,7 @@
 from gunicorn.app.base import BaseApplication
 
 from core.config import WORKER
-from core.database import create_db
+from core.db_config import create_db
 
 
 class CustomGunicornApp(BaseApplication):
