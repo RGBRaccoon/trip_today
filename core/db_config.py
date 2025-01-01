@@ -1,3 +1,5 @@
+from fastapi import Depends
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
@@ -5,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from dotenv import dotenv_values
 
 from core.config import DATABASE_URL, SYNC_DATABASE_URL
+from model.user_model import UserModel
 
 env_vars = dotenv_values(".env")
 
@@ -33,3 +36,7 @@ def create_db():
 async def get_async_session():
     async with async_session() as session:
         yield session
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+    yield SQLAlchemyUserDatabase(session, UserModel)
